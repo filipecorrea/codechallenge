@@ -2,29 +2,38 @@ package controller;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import jdbc.dao.LineDAO;
 import jdbc.dao.RouteDAO;
 import jdbc.dao.StationDAO;
+
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 
 @Path("/database")
 public class DatabaseController {
 
 	@GET
 	@Path("/update")
-	public String updateDatabase() {
+	@Produces(MediaType.APPLICATION_JSON)
+	public JSONObject updateDatabase() throws JSONException {
 		StationDAO stationDAO = new StationDAO();
 		stationDAO.update();
 
 		LineDAO lineDAO = new LineDAO();
 		lineDAO.update();
-		
+
 		RouteDAO routeDAO = new RouteDAO();
 		routeDAO.update();
 
+		JSONObject response = new JSONObject();
+		response.put("success", true);
+
 		System.out.println("DatabaseController: database updated.");
 
-		return "Database updated.";
+		return response;
 	}
 
 }
