@@ -20,13 +20,13 @@ public class DatabaseController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public JSONObject updateDatabase() throws JSONException {
 		StationDAO stationDAO = new StationDAO();
-		stationDAO.update();
+		stationDAO.updateContent();
 
 		LineDAO lineDAO = new LineDAO();
-		lineDAO.update();
+		lineDAO.updateContent();
 
 		RouteDAO routeDAO = new RouteDAO();
-		routeDAO.update();
+		routeDAO.updateContent();
 
 		JSONObject response = new JSONObject();
 		response.put("success", true);

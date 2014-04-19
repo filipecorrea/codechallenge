@@ -22,7 +22,7 @@ public class LineDAO {
 		this.connection = new ConnectionFactory().getConnection();
 	}
 
-	public List<Line> getList() {
+	public List<Line> getAll() {
 		try {
 			String sql = "SELECT * FROM lu_lines";
 			PreparedStatement statement = this.connection.prepareStatement(sql);
@@ -68,7 +68,7 @@ public class LineDAO {
 		}
 	}
 
-	public void update() {
+	public void updateContent() {
 		try {
 			String sql = "DELETE FROM lu_lines";
 			PreparedStatement statement = this.connection.prepareStatement(sql);

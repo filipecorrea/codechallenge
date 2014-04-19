@@ -9,8 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import jdbc.ConnectionFactory;
 import model.Station;
+import jdbc.ConnectionFactory;
 
 import com.csvreader.CsvReader;
 
@@ -22,9 +22,9 @@ public class StationDAO {
 		this.connection = new ConnectionFactory().getConnection();
 	}
 
-	public List<Station> getList() {
+	public List<Station> getAll() {
 		try {
-			String sql = "SELECT * FROM lu_stations";
+			String sql = "SELECT * FROM lu_stations ORDER BY id";
 			PreparedStatement statement = this.connection.prepareStatement(sql);
 
 			ResultSet result = statement.executeQuery();
@@ -77,8 +77,66 @@ public class StationDAO {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public Station findByName(String name) {
+		try {
+			String sql = "SELECT * FROM lu_stations WHERE name=?";
+			PreparedStatement statement = this.connection.prepareStatement(sql);
 
-	public void update() {
+			statement.setString(1, name);
+			
+			ResultSet result = statement.executeQuery();
+			
+			Station station = new Station();
+			
+			while(result.next()) {
+				station.setId(result.getInt("id"));
+				station.setLatitude(result.getFloat("latitude"));
+				station.setLatitude(result.getFloat("longitude"));
+				station.setName(result.getString("name"));
+				station.setDisplayName(result.getString("display_name"));
+				station.setZone(result.getFloat("zone"));
+				station.setTotalLines(result.getInt("total_lines"));
+				station.setRail(result.getInt("rail"));
+			}
+			
+			result.close();
+			statement.close();
+			
+			return station;
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public List<Integer> findLines(Integer id) {
+		try {
+			String sql = "SELECT DISTINCT line FROM lu_lines WHERE station1=? OR station2=?";
+			PreparedStatement statement = this.connection.prepareStatement(sql);
+
+			statement.setInt(1, id);
+			statement.setInt(2, id);
+			
+			ResultSet result = statement.executeQuery();
+			
+			List<Integer> lines = new ArrayList<Integer>();
+			
+			while(result.next()) {
+				lines.add(result.getInt("line"));
+			}
+			
+			result.close();
+			statement.close();
+			
+			return lines;
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void updateContent() {
 		try {
 			String sql = "DELETE FROM lu_stations";
 			PreparedStatement statement = this.connection.prepareStatement(sql);

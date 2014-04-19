@@ -22,7 +22,7 @@ public class RouteDAO {
 		this.connection = new ConnectionFactory().getConnection();
 	}
 
-	public List<Route> getList() {
+	public List<Route> getAll() {
 		try {
 			String sql = "SELECT * FROM lu_routes";
 			PreparedStatement statement = this.connection.prepareStatement(sql);
@@ -70,7 +70,7 @@ public class RouteDAO {
 		}
 	}
 
-	public void update() {
+	public void updateContent() {
 		try {
 			String sql = "DELETE FROM lu_routes";
 			PreparedStatement statement = this.connection.prepareStatement(sql);
