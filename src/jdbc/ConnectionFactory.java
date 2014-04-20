@@ -23,7 +23,7 @@ public class ConnectionFactory {
 			connection = DriverManager.getConnection(getConnectionUrl(),
 					userName, password);
 			if (connection != null) {
-				System.out.println("ConnectionFactory: database connected.");
+				//System.out.println("ConnectionFactory: database connected.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

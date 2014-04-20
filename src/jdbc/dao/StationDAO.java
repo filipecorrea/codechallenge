@@ -112,7 +112,7 @@ public class StationDAO {
 	
 	public List<Integer> findLines(Integer id) {
 		try {
-			String sql = "SELECT DISTINCT line FROM lu_lines WHERE station1=? OR station2=?";
+			String sql = "SELECT DISTINCT line FROM lu_lines WHERE (station1=? OR station2=?)";
 			PreparedStatement statement = this.connection.prepareStatement(sql);
 
 			statement.setInt(1, id);

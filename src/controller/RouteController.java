@@ -62,18 +62,16 @@ public class RouteController {
 
 		Station originStation = stationDAO.findByName(origin);
 		Station destinationStation = stationDAO.findByName(destination);
-
+		
 		// Make index and ID correspondent
 		nodes.add(new Vertex("0", "0"));
-
+		
 		for (Station station : stationDAO.getAll()) {
 			Vertex vertex = new Vertex(Integer.toString(station.getId()), station.getName());
 			nodes.add(vertex);
 		}
 
 		for (Line line : new LineDAO().getAll()) {
-			
-			// Set time to 1 to Dijkstra algorithm find the shortest route 
 			addLane("Edge", line.getStation1(), line.getStation2(), 1);
 			addLane("Edge", line.getStation2(), line.getStation1(), 1);
 		}
@@ -121,17 +119,8 @@ public class RouteController {
 		}
 
 		for (Line line : new LineDAO().getAll()) {
-			
-			
-			/*if () {
-				addLane("Edge", line.getStation1(), line.getStation2(), 12);
-				addLane("Edge", line.getStation2(), line.getStation1(), 12);
-			}
-			else {*/
-				addLane("Edge", line.getStation1(), line.getStation2(), 3);
-				addLane("Edge", line.getStation2(), line.getStation1(), 3);
-			//}
-			
+			addLane("Edge", line.getStation1(), line.getStation2(), 1);
+			addLane("Edge", line.getStation2(), line.getStation1(), 1);
 		}
 		
 		// Execute Dijkstra algorithm
@@ -146,15 +135,23 @@ public class RouteController {
 		
 		JSONArray route = new JSONArray();
 		
-		int time = 0;
+		int time = path.size()*3;
+		int connections = 0;
 		
-		
-		
-		for (Vertex vertex : path) {
+		for (int i = 0; i < path.size(); i++) {
+			route.put(path.get(i));
 			
-			route.put(vertex);
+			// Check if path is a connection
+			if (i >= 1 && i < path.size()-1) {
+				if (checkConnection(path.get(i-1), path.get(i+1))) {
+					connections++;
+				}
+			}
 		}
 		
+		time += connections*12;
+		
+		response.put("time", time);
 		response.put("directions", route);
 
 		return response;
@@ -163,6 +160,27 @@ public class RouteController {
 	private void addLane(String laneId, int sourceLocNo, int destLocNo, int duration) {
 		Edge lane = new Edge(laneId, nodes.get(sourceLocNo), nodes.get(destLocNo), duration);
 		edges.add(lane);
+	}
+	
+	private Boolean checkConnection(Vertex vertex1, Vertex vertex2) {
+		List<Integer> vertex1Lines = new StationDAO().findLines(Integer.parseInt(vertex1.getId()));
+		List<Integer> vertex2Lines = new StationDAO().findLines(Integer.parseInt(vertex2.getId()));
+		
+		if (vertex1Lines.size() > vertex2Lines.size()) {
+			for (Integer line : vertex1Lines) {
+				if (vertex2Lines.contains(line)) {
+					return false;
+				}
+			}
+		} else {
+			for (Integer line : vertex2Lines) {
+				if (vertex1Lines.contains(line)) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
 	}
 
 }
