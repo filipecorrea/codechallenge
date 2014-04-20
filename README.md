@@ -4,6 +4,14 @@ REST API for London Underground.
 
 ![alt text](https://raw.githubusercontent.com/filipecorrea/codechallenge/master/service-architecture.png "Service Architecture")
 
+JSON response for the database update:
+
+```javascript
+{
+	"success":true
+}
+```
+
 ## Database API
 
 Update database with CSV.
@@ -26,7 +34,7 @@ Calculate time of shortest route based on origin and destination stations.
 http://<server>:<port>/londonunderground/api/route/time?from=Queensway&to=Holborn
 ```
 
-This is the JSON response for the route between Queensway and Holborn:
+JSON response for the route between Queensway and Holborn:
 
 ```javascript
 {
