@@ -93,7 +93,7 @@ public class RouteController {
 		}
 		
 		response.put("directions", route);
-
+		
 		return response;
 	}
 

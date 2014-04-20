@@ -3,8 +3,8 @@ package model;
 public class Station {
 
 	private Integer id;
-	private float latitude;
-	private float longitude;
+	private Float latitude;
+	private Float longitude;
 	private String name;
 	private String display_name;
 	private Float zone;
