@@ -4,20 +4,20 @@ REST API for London Underground.
 
 ![alt text](https://raw.githubusercontent.com/filipecorrea/codechallenge/master/service-architecture.png "Service Architecture")
 
-JSON response for the database update:
-
-```javascript
-{
-	"success":true
-}
-```
-
 ## Database API
 
 Update database with CSV.
 
 ```
 http://<server>:<port>/londonunderground/api/database/update
+```
+
+JSON response for the database update:
+
+```javascript
+{
+	"success":true
+}
 ```
 
 ## Route API
