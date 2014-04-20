@@ -1,6 +1,8 @@
 # London Underground
 
-API for London Underground.
+REST API for London Underground.
+
+![alt text](https://raw.githubusercontent.com/filipecorrea/codechallenge/master/service-architecture.png "Service Architecture")
 
 ## Database API
 
@@ -18,7 +20,7 @@ Calculate shortest route based on origin and destination stations.
 http://<server>:<port>/londonunderground/api/route/short?from=Alperton&to=London+Bridge
 ```
 
-Calculate time of shortest route considering 3 minutes for traveling between stations on the same line and 12 minutes for changing lines.
+Calculate time of shortest route based on origin and destination stations.
 
 ```
 http://<server>:<port>/londonunderground/api/route/time?from=Queensway&to=Holborn
